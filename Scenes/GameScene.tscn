@@ -26,7 +26,7 @@ shape = SubResource("RectangleShape2D_bg80f")
 texture = ExtResource("1_snwhw")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(98, 479)
+position = Vector2(95, 60)
 script = ExtResource("2_wunho")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
@@ -46,7 +46,7 @@ position = Vector2(1202, 8)
 shape = SubResource("RectangleShape2D_4vqrs")
 
 [node name="ObstacleManager" type="Node2D" parent="." node_paths=PackedStringArray("pool")]
-position = Vector2(1348, 568)
+position = Vector2(1348, 599)
 script = ExtResource("4_17fuk")
 pool = NodePath("Pool")
 speed = 100.0

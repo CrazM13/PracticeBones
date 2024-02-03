@@ -19,7 +19,7 @@ public partial class Obstacle : Area2D {
 
 	private void OnBodyEntered(Node2D body) {
 		if (body is Player player) {
-			GD.Print("Player Hit");
+			player.OnDie();
 		}
 	}
 
