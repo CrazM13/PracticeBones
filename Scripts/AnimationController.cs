@@ -9,7 +9,7 @@ public partial class AnimationController : AnimationPlayer {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		// TODO play "Jump"
+		Play("Bot_Jump");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,10 +18,13 @@ public partial class AnimationController : AnimationPlayer {
 		bool isGrounded = target.IsOnFloor();
 
 		if (!wasGrounded && isGrounded) {
-			// TODO play "Walk"
+			Play("Bot_Run");
 		} else if (!isGrounded && wasGrounded) {
-			// TODO play "Jump"
+			Play("Bot_Jump");
+			//this.Seek(0, true);
 		}
+
+		wasGrounded = isGrounded;
 
 	}
 }

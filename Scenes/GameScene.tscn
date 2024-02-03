@@ -1,11 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://wero8hhkjat2"]
+[gd_scene load_steps=15 format=3 uid="uid://wero8hhkjat2"]
 
 [ext_resource type="Texture2D" uid="uid://bw8pph152ywtu" path="res://Assets/Textures/Scenery/GreenBar.png" id="1_snwhw"]
+[ext_resource type="Texture2D" uid="uid://1j22imwse512" path="res://Assets/Textures/Scenery/ForegroundGrass.png" id="2_fpf4u"]
+[ext_resource type="Script" path="res://Scripts/Parralax.cs" id="2_hw3yo"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="2_wunho"]
-[ext_resource type="PackedScene" uid="uid://dfk5ruacpm520" path="res://Assets/Prefabs/obstacle.tscn" id="3_drodj"]
+[ext_resource type="Texture2D" uid="uid://cs2y582x6km0h" path="res://Assets/Textures/Scenery/BackgroundGrass.png" id="3_0su37"]
+[ext_resource type="PackedScene" uid="uid://dfk5ruacpm520" path="res://Assets/Prefabs/ObstacleBase.tscn" id="3_drodj"]
 [ext_resource type="Script" path="res://Scripts/ObstacleManager.cs" id="4_17fuk"]
 [ext_resource type="Script" path="res://Scripts/ObstaclePool.cs" id="5_gqywv"]
+[ext_resource type="PackedScene" uid="uid://oikbpgs28rsa" path="res://Assets/Prefabs/Character.tscn" id="6_do5c8"]
 [ext_resource type="Script" path="res://Scripts/Camera.cs" id="6_lljm2"]
+[ext_resource type="Script" path="res://Scripts/AnimationController.cs" id="7_to4sf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bg80f"]
 size = Vector2(1160, 100)
@@ -31,6 +36,93 @@ texture = ExtResource("1_snwhw")
 position = Vector2(582, 0)
 texture = ExtResource("1_snwhw")
 
+[node name="Background" type="Node2D" parent="Ground" node_paths=PackedStringArray("obstacleManager", "parralaxObjects")]
+position = Vector2(0, -75)
+script = ExtResource("2_hw3yo")
+obstacleManager = NodePath("../../ObstacleManager")
+speedModifier = 0.75
+parralaxObjects = [NodePath("Sprite1"), NodePath("Sprite2"), NodePath("Sprite3"), NodePath("Sprite4")]
+maxDistance = 900.0
+
+[node name="Sprite1" type="Sprite2D" parent="Ground/Background"]
+z_index = -5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(-695, 0)
+texture = ExtResource("3_0su37")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite2" type="Sprite2D" parent="Ground/Background"]
+z_index = -5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(-183, 0)
+texture = ExtResource("3_0su37")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite3" type="Sprite2D" parent="Ground/Background"]
+z_index = -5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(329, 0)
+texture = ExtResource("3_0su37")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite4" type="Sprite2D" parent="Ground/Background"]
+z_index = -5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(841, 0)
+texture = ExtResource("3_0su37")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Foreground" type="Node2D" parent="Ground" node_paths=PackedStringArray("obstacleManager", "parralaxObjects")]
+position = Vector2(0, -75)
+script = ExtResource("2_hw3yo")
+obstacleManager = NodePath("../../ObstacleManager")
+parralaxObjects = [NodePath("Sprite1"), NodePath("Sprite2"), NodePath("Sprite3"), NodePath("Sprite4")]
+maxDistance = 900.0
+
+[node name="Sprite1" type="Sprite2D" parent="Ground/Foreground"]
+z_index = 5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(-695, 0)
+texture = ExtResource("2_fpf4u")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite2" type="Sprite2D" parent="Ground/Foreground"]
+z_index = 5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(-183, 0)
+texture = ExtResource("2_fpf4u")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite3" type="Sprite2D" parent="Ground/Foreground"]
+z_index = 5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(329, 0)
+texture = ExtResource("2_fpf4u")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
+[node name="Sprite4" type="Sprite2D" parent="Ground/Foreground"]
+z_index = 5
+z_as_relative = false
+texture_repeat = 2
+position = Vector2(841, 0)
+texture = ExtResource("2_fpf4u")
+region_enabled = true
+region_rect = Rect2(-256, 0, 512, 64)
+
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(95, 60)
 script = ExtResource("2_wunho")
@@ -39,7 +131,28 @@ script = ExtResource("2_wunho")
 shape = SubResource("CapsuleShape2D_1yr2u")
 
 [node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+visible = false
 polygon = PackedVector2Array(0, 15, 10, 0, 0, -15, -10, -1)
+
+[node name="Character" parent="CharacterBody2D" instance=ExtResource("6_do5c8")]
+position = Vector2(-46, -43)
+scale = Vector2(0.1, 0.1)
+
+[node name="GBotComplete" parent="CharacterBody2D/Character" index="0"]
+visible = false
+
+[node name="Jaw" parent="CharacterBody2D/Character/Skeleton2D/Hip/Torso/Neck" index="0"]
+scale = Vector2(1, 1)
+
+[node name="CalfR" parent="CharacterBody2D/Character/Skeleton2D/Hip/ThighR" index="0"]
+scale = Vector2(1, 1)
+
+[node name="ThighL" parent="CharacterBody2D/Character/Skeleton2D/Hip" index="2"]
+scale = Vector2(1, 1)
+
+[node name="AnimationPlayer" parent="CharacterBody2D/Character" index="3" node_paths=PackedStringArray("target")]
+script = ExtResource("7_to4sf")
+target = NodePath("../..")
 
 [node name="Bounds" type="StaticBody2D" parent="."]
 
@@ -76,3 +189,5 @@ intensity = 100.0
 
 [connection signal="OnDeath" from="CharacterBody2D" to="Camera2D" method="Shake" binds= [20.0]]
 [connection signal="timeout" from="ObstacleManager/Timer" to="ObstacleManager" method="Spawn"]
+
+[editable path="CharacterBody2D/Character"]

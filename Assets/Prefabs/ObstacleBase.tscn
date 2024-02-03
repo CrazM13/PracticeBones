@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dfk5ruacpm520"]
+[gd_scene load_steps=5 format=3 uid="uid://dfk5ruacpm520"]
 
 [ext_resource type="Script" path="res://Scripts/Obstacle.cs" id="1_jsd1l"]
+[ext_resource type="SpriteFrames" uid="uid://dr2g4bhguvpxr" path="res://Assets/Textures/Scenery/ObstacleSprites.tres" id="2_8ov4p"]
+[ext_resource type="Script" path="res://Scripts/SpriteRandomizer.cs" id="3_pkil6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_awbrp"]
 
@@ -14,8 +16,11 @@ shape = SubResource("CircleShape2D_awbrp")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(7, 7, 10, 0, 7, -7, 0, -10, -7, -7, -10, 0, -7, 7, 0, 10)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_8ov4p")
+animation = &"Obstacle1"
+script = ExtResource("3_pkil6")
+spriteNames = PackedStringArray("Obstacle1", "Obstacle2", "Obstacle3", "Obstacle4")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="OnEnterScreen"]

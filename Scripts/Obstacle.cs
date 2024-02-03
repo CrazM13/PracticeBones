@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class Obstacle : Area2D {
-
+	
 	public ObstacleManager Manager {  get; set; }
 
 	bool isOnScreen = false;

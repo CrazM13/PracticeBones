@@ -1,0 +1,41 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://dr2g4bhguvpxr"]
+
+[ext_resource type="Texture2D" uid="uid://c3cirot62bv1o" path="res://Assets/Textures/Scenery/Obsticle1.png" id="1_gvkqd"]
+[ext_resource type="Texture2D" uid="uid://sby2q5tcopy7" path="res://Assets/Textures/Scenery/Obstacle2.png" id="2_4jsqd"]
+[ext_resource type="Texture2D" uid="uid://ctqf6kvapovul" path="res://Assets/Textures/Scenery/Obstacle3.png" id="3_ox8qx"]
+[ext_resource type="Texture2D" uid="uid://vhpt0t6ka2xb" path="res://Assets/Textures/Scenery/Obstacle4.png" id="4_brxib"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gvkqd")
+}],
+"loop": true,
+"name": &"Obstacle1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4jsqd")
+}],
+"loop": true,
+"name": &"Obstacle2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ox8qx")
+}],
+"loop": true,
+"name": &"Obstacle3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_brxib")
+}],
+"loop": true,
+"name": &"Obstacle4",
+"speed": 5.0
+}]

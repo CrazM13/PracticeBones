@@ -79,4 +79,8 @@ public partial class ObstacleManager : Node2D {
 		return y + speed;
 	}
 
+	public float GetCurrentSpeed() {
+		return GetRealSpeed(spawnCount);
+	}
+
 }
