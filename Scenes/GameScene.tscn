@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://wero8hhkjat2"]
+[gd_scene load_steps=10 format=3 uid="uid://wero8hhkjat2"]
 
 [ext_resource type="Texture2D" uid="uid://bw8pph152ywtu" path="res://Assets/Textures/Scenery/GreenBar.png" id="1_snwhw"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="2_wunho"]
 [ext_resource type="PackedScene" uid="uid://dfk5ruacpm520" path="res://Assets/Prefabs/obstacle.tscn" id="3_drodj"]
 [ext_resource type="Script" path="res://Scripts/ObstacleManager.cs" id="4_17fuk"]
 [ext_resource type="Script" path="res://Scripts/ObstaclePool.cs" id="5_gqywv"]
+[ext_resource type="Script" path="res://Scripts/Camera.cs" id="6_lljm2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bg80f"]
 size = Vector2(1160, 100)
@@ -23,6 +24,11 @@ position = Vector2(575, 674)
 shape = SubResource("RectangleShape2D_bg80f")
 
 [node name="Sprite2D" type="Sprite2D" parent="Ground"]
+position = Vector2(-578, 0)
+texture = ExtResource("1_snwhw")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Ground"]
+position = Vector2(582, 0)
 texture = ExtResource("1_snwhw")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
@@ -45,11 +51,14 @@ shape = SubResource("RectangleShape2D_4vqrs")
 position = Vector2(1202, 8)
 shape = SubResource("RectangleShape2D_4vqrs")
 
-[node name="ObstacleManager" type="Node2D" parent="." node_paths=PackedStringArray("pool")]
+[node name="ObstacleManager" type="Node2D" parent="." node_paths=PackedStringArray("pool", "spawnTimer")]
 position = Vector2(1348, 599)
 script = ExtResource("4_17fuk")
 pool = NodePath("Pool")
+spawnTimer = NodePath("Timer")
 speed = 100.0
+difficultyTimeScale = 0.5
+maxSpeed = 400.0
 
 [node name="Pool" type="Node2D" parent="ObstacleManager"]
 script = ExtResource("5_gqywv")
@@ -59,4 +68,11 @@ obstaclePrefab = ExtResource("3_drodj")
 wait_time = 3.0
 autostart = true
 
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(576, 324)
+script = ExtResource("6_lljm2")
+decay = 0.95
+intensity = 100.0
+
+[connection signal="OnDeath" from="CharacterBody2D" to="Camera2D" method="Shake" binds= [20.0]]
 [connection signal="timeout" from="ObstacleManager/Timer" to="ObstacleManager" method="Spawn"]

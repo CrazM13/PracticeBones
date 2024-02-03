@@ -5,14 +5,27 @@ using System.Collections.Generic;
 public partial class ObstacleManager : Node2D {
 
 	[Export] private ObstaclePool pool;
+	[Export] private Timer spawnTimer;
 	[Export] private float speed;
 
+	[ExportGroup("Difficulty Scale")]
+	[Export] private int easeLength = 5;
+	[Export] private float difficultyTimeScale = 0.1f;
+	[Export] private float difficultyBoost = 2f;
+	[Export] private float maxSpeed = 1000f;
+
 	private List<Node2D> activeObstacles;
+
+	private int spawnCount;
+
+	private float initialSpawnTime;
 
 	public override void _Ready() {
 		base._Ready();
 
 		activeObstacles = new List<Node2D>();
+
+		initialSpawnTime = (float)spawnTimer.TimeLeft;
 	}
 
 	public void Spawn() {
@@ -27,6 +40,10 @@ public partial class ObstacleManager : Node2D {
 			if (node is Obstacle obstacle) {
 				obstacle.Manager = this;
 			}
+
+			spawnCount++;
+
+			spawnTimer.Start(initialSpawnTime * (speed / GetRealSpeed(spawnCount)));
 		}
 	}
 
@@ -35,7 +52,7 @@ public partial class ObstacleManager : Node2D {
 
 
 		for (int i = 0; i < activeObstacles.Count; i++) {
-			activeObstacles[i].Position += (Vector2.Left * speed * (float) delta);
+			activeObstacles[i].Position += (Vector2.Left * GetRealSpeed(spawnCount) * (float) delta);
 		}
 	}
 
@@ -49,6 +66,17 @@ public partial class ObstacleManager : Node2D {
 		}
 
 		pool.Despawn(obsticle);
+	}
+
+	private float GetRealSpeed(int count) {
+		if (count < easeLength) return speed;
+
+		float x = count * difficultyTimeScale;
+		float y = Mathf.Pow(x - easeLength, difficultyBoost);
+
+		if (y + speed > maxSpeed) return maxSpeed;
+
+		return y + speed;
 	}
 
 }

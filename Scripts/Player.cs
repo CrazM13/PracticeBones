@@ -2,7 +2,11 @@ using Godot;
 using System;
 
 public partial class Player : CharacterBody2D {
+
 	[Export] private float jumpVelocity = -400.0f;
+
+	[Signal]
+	public delegate void OnDeathEventHandler();
 
 	private Vector2 startingPosition;
 
@@ -34,6 +38,8 @@ public partial class Player : CharacterBody2D {
 
 	public void OnDie() {
 		this.GlobalPosition = startingPosition;
+
+		EmitSignal(SignalName.OnDeath);
 	}
 
 }
