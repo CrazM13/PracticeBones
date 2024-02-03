@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfk5ruacpm520"]
+
+[ext_resource type="Script" path="res://Scripts/Obstacle.cs" id="1_jsd1l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_awbrp"]
+
+[node name="Obstacle" type="Area2D"]
+input_pickable = false
+monitorable = false
+script = ExtResource("1_jsd1l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_awbrp")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(7, 7, 10, 0, 7, -7, 0, -10, -7, -7, -10, 0, -7, 7, 0, 10)
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="OnEnterScreen"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnLeaveScreen"]

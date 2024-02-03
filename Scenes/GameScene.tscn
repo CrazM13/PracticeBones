@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://wero8hhkjat2"]
+
+[ext_resource type="Texture2D" uid="uid://bw8pph152ywtu" path="res://Assets/Textures/Scenery/GreenBar.png" id="1_snwhw"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="2_wunho"]
+[ext_resource type="PackedScene" uid="uid://dfk5ruacpm520" path="res://Assets/Prefabs/obstacle.tscn" id="3_drodj"]
+[ext_resource type="Script" path="res://Scripts/ObstacleManager.cs" id="4_17fuk"]
+[ext_resource type="Script" path="res://Scripts/ObstaclePool.cs" id="5_gqywv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bg80f"]
+size = Vector2(1160, 100)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1yr2u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4vqrs"]
+size = Vector2(100, 1920)
+
+[node name="GameScene" type="Node2D"]
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(575, 674)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_bg80f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground"]
+texture = ExtResource("1_snwhw")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(98, 479)
+script = ExtResource("2_wunho")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_1yr2u")
+
+[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+polygon = PackedVector2Array(0, 15, 10, 0, 0, -15, -10, -1)
+
+[node name="Bounds" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(-50, 8)
+shape = SubResource("RectangleShape2D_4vqrs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(1202, 8)
+shape = SubResource("RectangleShape2D_4vqrs")
+
+[node name="ObstacleManager" type="Node2D" parent="." node_paths=PackedStringArray("pool")]
+position = Vector2(1348, 568)
+script = ExtResource("4_17fuk")
+pool = NodePath("Pool")
+speed = 100.0
+
+[node name="Pool" type="Node2D" parent="ObstacleManager"]
+script = ExtResource("5_gqywv")
+obstaclePrefab = ExtResource("3_drodj")
+
+[node name="Timer" type="Timer" parent="ObstacleManager"]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="ObstacleManager/Timer" to="ObstacleManager" method="Spawn"]
